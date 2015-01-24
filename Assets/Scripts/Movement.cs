@@ -6,8 +6,9 @@ public class Movement : MonoBehaviour
 	public float maxVelocity = 10.0f;
 	public float jumpVelocity = 10f;
 	private float maxSpeedTemp;
-	
-	//this needs changed to right thumbstick
+    public GameObject dust;
+    public ParticleSystem dustSystem;
+
 	bool facingRight = true;
 	bool onGround;
 	
@@ -17,6 +18,8 @@ public class Movement : MonoBehaviour
 	void Start () 
 	{
 		anim = GetComponent<Animator>();
+        dust = GameObject.Find("runDust");
+        dustSystem = dust.GetComponent<ParticleSystem>();
         maxSpeedTemp = maxVelocity;
 	}
 	
@@ -25,6 +28,15 @@ public class Movement : MonoBehaviour
 	{
 		float move = Input.GetAxis("Horizontal");
 		
+        if((move > 0.5 || move < -0.5) && onGround)
+        {
+            dustSystem.enableEmission = true;
+        }
+        else
+        {
+            dustSystem.enableEmission = false;
+        }
+
 		float animTrigger = move; //Changes the animation when the speed is greater than 0 
 														
 		anim.SetFloat ("speed", Mathf.Abs (animTrigger));
@@ -58,6 +70,7 @@ public class Movement : MonoBehaviour
 		if(move > 0 && !facingRight)
 		{
 			FlipFacing();
+
 		}
 		else if(move < 0 && facingRight)
 		{
@@ -71,7 +84,10 @@ public class Movement : MonoBehaviour
 		Vector3 charScale = transform.localScale;
 		charScale.x *= -1;
 		transform.localScale = charScale;
-	
+
+        Vector3 dustRot = dust.transform.eulerAngles; 
+        dustRot.y *= -1;
+        dust.transform.eulerAngles = dustRot;
 	}
 	
 	void OnCollisionEnter2D(Collision2D collision)
