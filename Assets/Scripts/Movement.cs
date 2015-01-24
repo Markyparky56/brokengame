@@ -17,15 +17,13 @@ public class Movement : MonoBehaviour
 	void Start () 
 	{
 		anim = GetComponent<Animator>();
-		
+        maxSpeedTemp = maxVelocity;
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () 
 	{
 		float move = Input.GetAxis("Horizontal");
-		
-		
 		
 		float animTrigger = move; //Changes the animation when the speed is greater than 0 
 														
@@ -42,18 +40,18 @@ public class Movement : MonoBehaviour
 			rigidbody2D.AddForce(Vector2.up * jumpVelocity, ForceMode2D.Impulse);
 			onGround = false;
 		}
-		
-//		if(Input.GetButton("Sprint") && onGround) // Don't want sprinting mid-jump
-//		{
-//			maxSpeed = maxSpeedTemp*1.5 ;
-//		} 
-//		else
-//		{
-//			if (onGround)
-//			{
-//				maxSpeed = maxSpeedTemp;
-//			}
-//		}
+
+        if (Input.GetButton("Sprint") && onGround) // Don't want sprinting mid-jump
+        {
+            maxVelocity = maxSpeedTemp * 1.5f;
+        }
+        else
+        {
+            if (onGround)
+            {
+                maxVelocity = maxSpeedTemp;
+            }
+        }
 		
 		
 		//the following all needs changed
