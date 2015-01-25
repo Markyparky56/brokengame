@@ -9,7 +9,7 @@ public class Movement : MonoBehaviour
 	private float maxSpeedTemp;
     public GameObject dust;
     public ParticleSystem dustSystem;
-
+    globalvariables global;
 	bool facingRight = true;
 	bool onGround;
 	
@@ -19,11 +19,10 @@ public class Movement : MonoBehaviour
 	void Start () 
 	{
 		anim = GetComponent<Animator>();
-        dust = GameObject.Find("runDust");
         dustSystem = dust.GetComponent<ParticleSystem>();
         maxSpeedTemp = maxVelocity;
         tempJumpVelocity = jumpVelocity;
-        Physics2D.IgnoreLayerCollision(8, 9);
+        global = GameObject.Find("gameManager").GetComponent<globalvariables>();
 	}
 	
 	// Update is called once per frame
@@ -45,9 +44,18 @@ public class Movement : MonoBehaviour
 		anim.SetFloat ("speed", Mathf.Abs (animTrigger));
 		
 		anim.SetBool ("jumping", !onGround);
-			
-		rigidbody2D.velocity = new Vector2(move * maxVelocity, rigidbody2D.velocity.y);
-		
+
+        if (global.freezePlayer != true)
+        {
+            rigidbody2D.velocity = new Vector2(move * maxVelocity, rigidbody2D.velocity.y);
+            anim.SetBool("notFrozen", true);
+        }
+        else
+        {
+            rigidbody2D.velocity = new Vector2(0, 0);
+            anim.SetBool("notFrozen", false);
+        }
+
 		// Jumpy stuff
 		//rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, jumpVelocity * vertical); 
 		if (Input.GetButton("Jump") && onGround)

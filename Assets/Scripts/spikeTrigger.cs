@@ -18,13 +18,21 @@ public class spikeTrigger : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision.gameObject.name);
+        //Debug.Log(collision.gameObject.name);
         if (global.sceneLevel == globalvariables.level.Broken)
         {
-            if (collision.gameObject.name == "bobController")
+            if (collision.gameObject.name == "bobController" && global.trapTriggered == false)
             {
                 Destroy(invisibleWall);
+                global.trapTriggered = true;
+                global.freezePlayer = true;
+                Invoke("unfreeze", 5f);
             }
         }
+    }
+
+    void unfreeze()
+    {
+        global.freezePlayer = false;
     }
 }

@@ -7,6 +7,7 @@ public class dustParticles : MonoBehaviour {
 	void Start () {
         particleSystem.renderer.sortingLayerName = "particlelayer";
         particleSystem.renderer.sortingOrder = 5;
+        Debug.Log("Particle system renderering on particlelayer");
 	}
 	
 	// Update is called once per frame
