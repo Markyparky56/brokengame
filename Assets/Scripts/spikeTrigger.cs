@@ -26,7 +26,8 @@ public class spikeTrigger : MonoBehaviour {
                 Destroy(invisibleWall);
                 global.trapTriggered = true;
                 global.freezePlayer = true;
-                Invoke("unfreeze", 5f);
+                GameObject.Find("Dialog2").GetComponent<Animator>().SetBool("playDialog", true);
+                Invoke("unfreeze", 14f);
             }
         }
     }
@@ -34,5 +35,7 @@ public class spikeTrigger : MonoBehaviour {
     void unfreeze()
     {
         global.freezePlayer = false;
+        GameObject.Find("Dialog2").GetComponent<Animator>().SetBool("playDialog", false);
+
     }
 }

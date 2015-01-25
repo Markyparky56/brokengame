@@ -21,9 +21,10 @@ public class chatTrigger2 : MonoBehaviour {
     {
         if (global.trapTriggered == true && talked == false)
         { 
-            Instantiate(chatBubble, new Vector3(-28.0f, 1.8f, 0), new Quaternion(0, 0, 0, 0));
+            //Instantiate(chatBubble, new Vector3(-28.0f, 1.8f, 0), new Quaternion(0, 0, 0, 0));
             global.freezePlayer = true;
-            Invoke("unfreeze", 5f);
+            GameObject.Find("Dialog3").GetComponent<Animator>().SetBool("playDialog", true);
+            Invoke("unfreeze", 15f);
             talked = true;
             global.doorLocked = false;
         }
@@ -32,14 +33,16 @@ public class chatTrigger2 : MonoBehaviour {
     void unfreeze()
     {
         global.freezePlayer = false;
+        GameObject.Find("Dialog3").GetComponent<Animator>().SetBool("playDialog", false);
+
     }
 
     void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.name == "bobController")
         {
-            GameObject bubble = GameObject.Find("speechbubble(Clone)");
-            Destroy(bubble);
+            //GameObject bubble = GameObject.Find("speechbubble(Clone)");
+            //Destroy(bubble);
         }
     }
 }
